@@ -1,42 +1,46 @@
-#include<stdio.h>
-#include<windows.h>
-#include<conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h> // For usleep()
+
 int main()
 {
-    int h,m,s;
-    int d=1000; //We add a delay of 1000 milliseconds and we will use it in function Sleep
-    printf("Set time: \n");
-    scanf("%d%d%d",&h,&m,&s);
-    if(h>12 || m>60 || s>60)
+    int h, m, s;
+    int d = 1000000; // Delay in microseconds (1 second = 1,000,000 microseconds)
+
+    printf("Set time (HH MM SS): \n");
+    scanf("%d %d %d", &h, &m, &s);
+
+    // Validate input
+    if (h < 0 || h > 12 || m < 0 || m > 59 || s < 0 || s > 59)
     {
-
-
-        printf("ERROR !!! \n");
-
+        printf("ERROR: Invalid time input!\n");
         exit(0);
     }
-    while(1) //This is an infinite loop and anything inside it will repeat itself to infinity
+    printf("\n CLOCK :");
+    while (1) // Infinite loop
     {
         s++;
-        if(s>59)
+        if (s > 59)
         {
             m++;
-            s=0;
+            s = 0;
         }
-        if(m>59)
+        if (m > 59)
         {
             h++;
-            m=0;
+            m = 0;
         }
-        if(h>12)
+        if (h > 12)
         {
-            h=1;
+            h = 1;
         }
-        printf("\n CLOCK :");
-        printf("\n %02d:%02d:%02d",h,m,s);
-        Sleep(d); //The function Sleep slow down while loop and  make it like a real clock
-        system("cls");//This clears the screen
+
+        
+        printf("\n %02d:%02d:%02d", h, m, s);
+
+        usleep(d); // Delay for 1 second
+        system("clear"); // Clear the screen (use "cls" for Windows)
     }
 
-
+    return 0;
 }
